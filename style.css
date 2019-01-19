@@ -36,8 +36,11 @@ header button {
     cursor: pointer;
 }
 
-
 ul{
+    padding: 0;
+}
+ul li{
+
     width: 100%;
     padding: 15px;
     margin-top: 10px;
