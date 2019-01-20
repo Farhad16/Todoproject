@@ -36,16 +36,8 @@ header button {
 	outline: none;
 	cursor: pointer;
 }
-/* header button:hover {
-	font-size: 32px;
-	top: 8px;
-	padding: 4px 20px 4px 20px;
-	border: 1px solid #f89e9e;
-	background: #FFB6B6;
-} */
 ul {
 	margin: 0px;
-	/* padding: 0px; */
 	background: #979797;
 	padding: 10px 0px 20px 0px;
 }  
@@ -65,7 +57,6 @@ ul li{
 ul button {
 	font-size: 20px;
     background: #FCC;
-    border-right-style: dotted;
 	position: absolute;
 	margin-top: -6px;
 	right: 85px;

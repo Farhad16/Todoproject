@@ -57,13 +57,8 @@
         }
 
         function removeElement(elementId) {
-            //console.log(elementId);
-            // Removes an element from the document
-            // var existing = JSON.parse(localStorage.getItem('itemlist'));
-            // console.log(existing);
             var element = document.getElementById(elementId);
             element.parentNode.removeChild(element);
-            //console.log(elementId);
             var localData = JSON.parse(localStorage.getItem('itemlist'));
             var item = localData.find(function(e){
                 return e.id == elementId+1;
