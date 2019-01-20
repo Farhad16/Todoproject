@@ -20,8 +20,7 @@
 
     </ul>
     <script>
-        var itemId = 0;
-
+        var itemId = localStorage.getItem('lastId') ? parseInt(localStorage.getItem('lastId')) : 0;
         function reload(){
             var existItem = JSON.parse(localStorage.getItem('itemlist'));
             if(existItem){
@@ -71,7 +70,6 @@
                 '<i id="' + itemId +'"class="fa fa-check chn"></i>' +
                 '<i id="' + itemId + '"  onclick="removeElement(this.id);" class="fa fa-trash"</i>' +
                 '</li>';
-                itemId += 1;
         }
 
         function storeLocal(data) {
@@ -79,10 +77,12 @@
                 let list = [];
                 list.push(data);
                 localStorage.setItem("itemlist", JSON.stringify(list));
+                localStorage.setItem('lastId', ++itemId);
             } else {
                 let existing = JSON.parse(localStorage.getItem('itemlist'));
                 existing.push(data);
                 localStorage.setItem("itemlist", JSON.stringify(existing));
+                localStorage.setItem('lastId', ++itemId);
             }
         }
     </script>
