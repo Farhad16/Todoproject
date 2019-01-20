@@ -54,7 +54,7 @@ ul li{
     list-style-type:none;
 }
 
-ul button {
+ul li i{
 	font-size: 20px;
     background: #FCC;
 	position: absolute;
@@ -64,7 +64,7 @@ ul button {
 	outline: none;
 	cursor: pointer;
 }
-ul button:hover{
+ul li i:hover{
     font-size: 25px;
     margin-top: -7px;
 }
