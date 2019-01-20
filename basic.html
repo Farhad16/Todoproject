@@ -37,7 +37,6 @@
                     '<button class="chn"><i class="fas fa-check"></i></button>' +
                     '</li>';
                  $("item").value = '';
-                lists = lists + 1;
                 var data = {
                     text: x,
                     id: lists
@@ -51,7 +50,7 @@
                     existing.push(data);
                     localStorage.setItem("itemlist", JSON.stringify(existing));
                 }
-               
+                lists = lists + 1;
             }
 
         }
@@ -61,7 +60,7 @@
             element.parentNode.removeChild(element);
             var localData = JSON.parse(localStorage.getItem('itemlist'));
             var item = localData.find(function(e){
-                return e.id == elementId+1;
+                return e.id == elementId;
             });
             localData.splice(localData.indexOf(item), 1);
             localStorage.setItem("itemlist",JSON.stringify(localData));
