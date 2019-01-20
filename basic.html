@@ -32,17 +32,30 @@
         }
 
         function myFuction() {
-            lists += lists;
             var x = $("item").value;
             if (x.length > 0) {
-                localStorage.setItem("Itemlist",x);
                 $('itemList').innerHTML +=
-                    '<li id="'+lists+'"}>' +
+                    '<li id="' + lists + '"}>' +
                     '<span>' + x + '</span>' +
-                    '<button id="' + lists + '" onclick="removeElement(' + this.lists +');"><i class="fas fa-trash"></i></button>' +
+                    '<button id="' + lists + '" onclick="removeElement(' + this.lists +
+                    ');"><i class="fas fa-trash"></i></button>' +
                     '<button class="chn"><i class="fas fa-check"></i></button>' +
                     '</li>';
-             
+                lists = lists+1;
+                var data = {
+                    text: x,
+                    id: lists
+                };
+                if(!(localStorage.getItem('itemlist'))){
+                    let list = [];
+                    list.push(data);
+                    localStorage.setItem("itemlist", JSON.stringify(list));
+                }
+                else{
+                    let existing = JSON.parse(localStorage.getItem('itemlist'));
+                    existing.push(data);
+                    localStorage.setItem("itemlist", JSON.stringify(existing));
+                }
                 $("item").value = '';
             }
 
@@ -53,7 +66,6 @@
             var element = document.getElementById(elementId);
             element.parentNode.removeChild(element);
         }
-
     </script>
 </body>
 
