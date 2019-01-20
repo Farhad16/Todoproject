@@ -35,13 +35,14 @@
             lists += lists;
             var x = $("item").value;
             if (x.length > 0) {
+                localStorage.setItem("Itemlist",x);
                 $('itemList').innerHTML +=
                     '<li id="'+lists+'"}>' +
                     '<span>' + x + '</span>' +
                     '<button id="' + lists + '" onclick="removeElement(' + this.lists +');"><i class="fas fa-trash"></i></button>' +
                     '<button class="chn"><i class="fas fa-check"></i></button>' +
                     '</li>';
-                   
+             
                 $("item").value = '';
             }
 
@@ -52,6 +53,7 @@
             var element = document.getElementById(elementId);
             element.parentNode.removeChild(element);
         }
+
     </script>
 </body>
 
