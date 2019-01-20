@@ -17,13 +17,8 @@
     </header>
 
     <ul id="itemList">
-
+        
     </ul>
-    <hr>
-    <ul>
-
-    </ul>
-
     <script>
         var lists = 0;
 
@@ -41,30 +36,40 @@
                     ');"><i class="fas fa-trash"></i></button>' +
                     '<button class="chn"><i class="fas fa-check"></i></button>' +
                     '</li>';
-                lists = lists+1;
+                 $("item").value = '';
+                lists = lists + 1;
                 var data = {
                     text: x,
                     id: lists
                 };
-                if(!(localStorage.getItem('itemlist'))){
+                if (!(localStorage.getItem('itemlist'))) {
                     let list = [];
                     list.push(data);
                     localStorage.setItem("itemlist", JSON.stringify(list));
-                }
-                else{
+                } else {
                     let existing = JSON.parse(localStorage.getItem('itemlist'));
                     existing.push(data);
                     localStorage.setItem("itemlist", JSON.stringify(existing));
                 }
-                $("item").value = '';
+               
             }
 
         }
 
         function removeElement(elementId) {
+            //console.log(elementId);
             // Removes an element from the document
+            // var existing = JSON.parse(localStorage.getItem('itemlist'));
+            // console.log(existing);
             var element = document.getElementById(elementId);
             element.parentNode.removeChild(element);
+            //console.log(elementId);
+            var localData = JSON.parse(localStorage.getItem('itemlist'));
+            var item = localData.find(function(e){
+                return e.id == elementId+1;
+            });
+            localData.splice(localData.indexOf(item), 1);
+            localStorage.setItem("itemlist",JSON.stringify(localData));
         }
     </script>
 </body>
