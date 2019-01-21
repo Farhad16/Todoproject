@@ -8,36 +8,30 @@
     <title>Todo</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 </head>
 
-<body>
+<body ng-app="myApp" ng-controller="myControl">
     <header>
         <input type="text" placeholder="Add Item" id="item" name="item">
         <button onclick="myFuction()"><i class="fas fa-plus"></i></button>
     </header>
 
     <ul id="itemList">
-
+        <li ng-repeat="n in list">
+            <span>{{n.text}}</span>
+            <i class="fa fa-check chn"></i>
+            <i id="{{n.id}}" onclick="removeElement(event);" class="fa fa-trash"></i>
+        </li>
     </ul>
     <script>
         var itemId = localStorage.getItem('lastId') ? parseInt(localStorage.getItem('lastId')) : 0;
-        function reload(){
-            var existItem = JSON.parse(localStorage.getItem('itemlist'));
-            if(existItem){
-                let i;
-                for(i=0;i<existItem.length;i++){
-                    domRander(existItem[i]);
-                }
-            }
-        }
-        reload();
-
         function $(id) {
             return document.getElementById(id);
         }
 
         function myFuction() {
-            
+
             var x = $("item").value;
             if (x.length > 0) {
                 var data = {
@@ -51,13 +45,11 @@
 
         }
 
-        function removeElement(elementId) {
-            console.log(elementId);
-            var element = document.getElementById(elementId);
-            element.parentNode.removeChild(element);
+        function removeElement(e) {
+            e.target.parentNode.parentNode.removeChild(e.target.parentNode);
             var localData = JSON.parse(localStorage.getItem('itemlist'));
-            var item = localData.find(function (e) {
-                return e.id == elementId;
+            var item = localData.find(function (el) {
+                return el.id == e.target.id;
             });
             localData.splice(localData.indexOf(item), 1);
             localStorage.setItem("itemlist", JSON.stringify(localData));
@@ -67,7 +59,7 @@
             $('itemList').innerHTML +=
                 '<li id="' + itemId + '">' +
                 '<span>' + data.text + '</span>' +
-                '<i id="' + itemId +'"class="fa fa-check chn"></i>' +
+                '<i id="' + itemId + '"class="fa fa-check chn"></i>' +
                 '<i id="' + itemId + '"  onclick="removeElement(this.id);" class="fa fa-trash"</i>' +
                 '</li>';
         }
@@ -85,6 +77,12 @@
                 localStorage.setItem('lastId', ++itemId);
             }
         }
+
+        var app = angular.module('myApp', []);
+        app.controller('myControl', function ($scope) {
+            $scope.name = "Farhad Hossain";
+            $scope.list = JSON.parse(localStorage.getItem('itemlist'));
+        });
     </script>
 </body>
 
