@@ -5,6 +5,24 @@
      return document.getElementById(id);
  }
 
+
+ function itemGet(varName){
+     return localStorage.getItem(varName);
+ }
+
+
+ function itemSet(varName,data){
+     return localStorage.setItem(varName,data);
+ }
+
+
+ function itemGetjsn(varName){
+     return JSON.parse(localStorage.getItem(varName))
+ }
+
+function itemSetjsn(varName,data){
+    return localStorage.setItem(varName, JSON.stringify(data));
+}
  // Click add button show and store data in localstorage
 
  function myFuction() {
@@ -26,12 +44,12 @@
 
  function removeElement(e) {
      e.target.parentNode.parentNode.removeChild(e.target.parentNode);
-     var localData = JSON.parse(localStorage.getItem('itemlist'));
+     var localData = itemGetjsn('itemlist');
      var item = localData.find(function (el) {
          return el.id == e.target.id;
      });
      localData.splice(localData.indexOf(item), 1);
-     localStorage.setItem("itemlist", JSON.stringify(localData));
+     itemSetjsn("itemlist",localData);
  }
 
  //Dom randing 
@@ -48,16 +66,16 @@
  //Store data in localStorage
 
  function storeLocal(data) {
-     if (!(localStorage.getItem('itemlist'))) {
+     if (!(itemGet('itemlist'))) {
          let list = [];
          list.push(data);
-         localStorage.setItem("itemlist", JSON.stringify(list));
-         localStorage.setItem('lastId', ++itemId);
+         itemSetjsn("itemlist",list);
+         itemSet('lastId', ++itemId);
      } else {
-         let existing = JSON.parse(localStorage.getItem('itemlist'));
+         let existing = itemGetjsn('itemlist');
          existing.push(data);
-         localStorage.setItem("itemlist", JSON.stringify(existing));
-         localStorage.setItem('lastId', ++itemId);
+         itemSetjsn("itemlist",existing);
+         itemSet('lastId', ++itemId);
      }
  }
 
@@ -65,5 +83,5 @@
 
  var app = angular.module('myApp', []);
  app.controller('myControl', function ($scope) {
-     $scope.list = JSON.parse(localStorage.getItem('itemlist'));
+     $scope.list = itemGetjsn('itemlist');
  });
