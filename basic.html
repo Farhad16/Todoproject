@@ -8,23 +8,86 @@
     <title>Todo</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="angular.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDeSVD1C3-R-WJvjfIXrlnymvu09m6yf9o",
+            authDomain: "todoproject-b1385.firebaseapp.com",
+            databaseURL: "https://todoproject-b1385.firebaseio.com",
+            projectId: "todoproject-b1385",
+            storageBucket: "todoproject-b1385.appspot.com",
+            messagingSenderId: "726781440466"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script src="js/angularfire.min.js"></script>
 </head>
 
-<body ng-app="myApp" ng-controller="myControl">
+<body ng-app="myApp" ng-controller='myCtrl'>
     <header>
-        <input type="text" placeholder="Add Item" id="item" name="item">
-        <button onclick="myFuction()"><i class="fas fa-plus"></i></button>
+        <input type="text" placeholder="Write....." id="inputItem" name="item" ng-enter="addFuction()">
+        <button  id="myBtn" ng-click="addFuction()"><i class="fas fa-plus"></i></button>
     </header>
 
     <ul id="itemList">
-        <li ng-repeat="n in list">
-            <span>{{n.text}}</span>
+        <li ng-repeat="x in arrList">
+            <span id="#">{{x.activity}}</span>
             <i class="fa fa-check chn"></i>
-            <i id="{{n.id}}" onclick="removeElement(event);" class="fa fa-trash"></i>
+            <i id="{{x.$id}}" ng-click="removeElement($event);" class="fa fa-trash"></i>
         </li>
     </ul>
-    <script src="index.js"></script>
+
+
+    <script>
+        function $(id) {
+            return document.getElementById(id);
+        }
+
+        //Add something when press Enter button start...
+        var input = document.getElementById("inputItem");
+        input.addEventListener("keyup", function (event) {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                document.getElementById("myBtn").click();
+            }
+        });
+
+        //Add something when press Enter button End..
+
+        var eId = 0;
+        //firebase connection
+        var database = firebase.database();
+
+        //Insert process in firebase.....start....
+        var app = angular.module('myApp', ['firebase']);
+        app.controller('myCtrl', function ($scope, $firebaseArray) {
+            $scope.arrList = $firebaseArray(database.ref('list')); ////    Very important line.....for Angular
+            $scope.addFuction = function () {
+                eId += 1;
+                let addItem = $("inputItem").value;
+                $("inputItem").value = "";
+                let data = {
+                    id: eId,
+                    activity: addItem
+                };
+                // Get a reference to the database service  ......   write data in firebase DB
+                database.ref('list').push(data);
+            }
+             //Insert process in firebase.....End....
+
+            //Remove from firebase..start..
+            $scope.removeElement = function (event) {
+                database.ref('list').child(event.target.id).remove();
+            
+            //Remove from firebase..End..
+
+            //Reset and Update data
+                $scope.arrList = $firebaseArray(database.ref('list'));
+            }
+        });
+    </script>
 </body>
 
 </html>
